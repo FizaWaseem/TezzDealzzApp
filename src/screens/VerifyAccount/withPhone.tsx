@@ -6,19 +6,23 @@ import {
   EnterdigitCode,
   Submit,
 } from "../../utils/constants/en/index";
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Fieldnames, verificationNumberValidation } from "../../utils/form/validationForm";
 import { userVerifyPhone } from "../../utils/api";
 import Toast from 'react-native-simple-toast';
 import { fieldForm } from "../../../types";
 import GeneralView from "../../section/LoginView/GeneralLoginView";
+import { RootState } from "../../redux/store";
 
 
-const VerifywithPhone= (alreadyAccount) => {
+const VerifywithPhone= () => {
   const [input, setinput] = useState({
     phone: "",
     code: "",
 });
+const alreadyAccount = useSelector(
+  (state: RootState) => state.auth.alreadyVerify
+);
   const [Verify, setVerify] = useState(true);
     const dispatch = useDispatch();
     const [Loader, setLoader] = useState(false);
@@ -64,7 +68,7 @@ const VerifywithPhone= (alreadyAccount) => {
     if (response.status === "success") {
       return (
         setLoader(false),
-        setVerify((prev)=> prev.Verify === true ?  true:false,
+        setVerify((prev:any)=> prev.Verify === true ?  true:false,
       ),
         Toast.show("Code sent to your Phone")
       )
@@ -102,8 +106,5 @@ const VerifywithPhone= (alreadyAccount) => {
   
   );
 }
-const mapStateToProps = (state: { rootReducer: { auth: { alreadyAccount: any; }; }; }) => ({
-  alreadyAccount: state.rootReducer.auth.alreadyAccount,
-});
 
-export default connect(mapStateToProps)(VerifywithPhone);
+export default VerifywithPhone;

@@ -2,11 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Image } from "react-native";
 import { TextInput } from "react-native-paper";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import CustomButton from "../../component/CustomButton";
 import CustomHeader from "../../component/customHeader/CustomHeader";
 import CustomLoader from "../../component/CustomLoader";
+import { RootState } from "../../redux/store";
 import HeadingSection from "../../section/CustomHeading/Heading";
 import { globalStyle } from "../../Styles";
 import { COLOR } from "../../Theme/Colors";
@@ -33,7 +34,7 @@ import { RS } from "../../utils/form/validationForm";
 import { compareStyle } from "./style";
 
 
-const CompareProduct = (SelectedItem: { SelectedItem: { _id: any }[] }) => {
+const CompareProduct = () => {
   const {
     ImageView,
     view1,
@@ -49,7 +50,7 @@ const CompareProduct = (SelectedItem: { SelectedItem: { _id: any }[] }) => {
     textStyle,
     labelStyle,
   } = compareStyle;
-
+  const SelectedItem = useSelector((state:RootState) => state.compare.SelectedItem);
   const [ActiveIndex, setActiveIndex] = useState(0);
   const [Loader, setLoader] = useState(false);
   const [car, setCars] = useState<any>([]);
@@ -129,7 +130,7 @@ const CompareProduct = (SelectedItem: { SelectedItem: { _id: any }[] }) => {
               {car.map(
                 (i: {
                   _id: React.Key | null | undefined;
-                  images: any[];
+                  image: any[];
                   make:
                     | boolean
                     | React.ReactChild
@@ -353,9 +354,5 @@ const CompareProduct = (SelectedItem: { SelectedItem: { _id: any }[] }) => {
     </View>
   );
 };
-const mapStateToProps = (state: {
-  rootReducer: { auth: { SelectedItem: any } };
-}) => ({
-  SelectedItem: state.rootReducer.auth.SelectedItem,
-});
-export default connect(mapStateToProps)(CompareProduct);
+
+export default CompareProduct;

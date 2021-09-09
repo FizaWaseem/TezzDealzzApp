@@ -1,14 +1,14 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import { View, Image, TouchableOpacity } from "react-native";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import CustomButton from "../../component/CustomButton";
 import CustomHeader from "../../component/customHeader/CustomHeader";
 import CustomLoader from "../../component/CustomLoader";
 import CustomSearch from "../../component/CustomSearch";
 import ProductBox from "../../component/ProductBox";
 import { openDrawer } from "../../navigation";
-import { compare, remove } from "../../redux/reducers/authSlice";
+import { compare, remove } from "../../redux/reducers/compareSlice";
 import HeadingSection from "../../section/CustomHeading/Heading";
 import { globalStyle } from "../../Styles";
 import { COLOR } from "../../Theme/Colors";
@@ -16,9 +16,17 @@ import { allCars } from "../../utils/api/CarsApi";
 import { Itemadded, Itemremoved } from "../../utils/constants/alertMsg";
 import { compareStyle } from "./style";
 import Toast from "react-native-simple-toast";
-const SearchCompare = ({ SelectedItem, activeCompare }) => {
+import { RootState } from "../../redux/store";
+const SearchCompare = () => {
   const { crossIcon, imageIcon, compareButton, compareText, chip, flexHeight } =
     compareStyle;
+
+  const SelectedItem = useSelector(
+    (state: RootState) => state.compare.SelectedItem
+  );
+  const activeCompare = useSelector(
+    (state: RootState) => state.compare.activeCompare
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [Loader, setLoader] = useState(true);
   const [cars, setCars] = useState<any>([]);
@@ -151,10 +159,5 @@ const SearchCompare = ({ SelectedItem, activeCompare }) => {
     </View>
   );
 };
-const mapStateToProps = (state: {
-  rootReducer: { auth: { SelectedItem: any; activeCompare: any } };
-}) => ({
-  SelectedItem: state.rootReducer.auth.SelectedItem,
-  activeCompare: state.rootReducer.auth.activeCompare,
-});
-export default connect(mapStateToProps)(SearchCompare);
+
+export default SearchCompare;

@@ -52,10 +52,14 @@ import { List, TextInput } from "react-native-paper";
 import { UpdateMe, UpdateMyPassword } from "../../utils/api/index";
 import RBSheet from "react-native-raw-bottom-sheet";
 import CustomAlert from "../../component/customOTP/customAlert";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { updateMyPassValidate } from "../../utils/form/validationForm";
+import { RootState } from "../../redux/store";
 
-const Profile = (currentUser: { currentUser: any }) => {
+const Profile = () => {
+  const currentUser = useSelector(
+    (state: RootState) => state.auth.currentUser
+  );
   const _User = currentUser.currentUser;
   const refRBSheet = useRef<RBSheet>(null);
   const [bottom, setbottom] = useState({
@@ -215,7 +219,7 @@ const Profile = (currentUser: { currentUser: any }) => {
       });
   };
 
-  const handleEmail = () => {
+  const handleEmail = (values:any) => {
     console.log("press", currentUser.currentUser);
     console.log("press", _User.firstName);
   };
@@ -591,9 +595,5 @@ const Profile = (currentUser: { currentUser: any }) => {
     </View>
   );
 };
-const mapStateToProps = (state: {
-  rootReducer: { auth: { currentUser: any } };
-}) => ({
-  currentUser: state.rootReducer.auth.currentUser,
-});
-export default connect(mapStateToProps)(Profile);
+
+export default Profile;

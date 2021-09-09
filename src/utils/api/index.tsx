@@ -64,7 +64,7 @@ export const userLoginwithPhone = async (data: fieldForm) => {
     return error.response.data;
   }
 };
-export const userVerifyEmail = async (data: fieldForm) => {
+export const userVerifyEmail = async (data: any) => {
   try {
     let result = await axios.post(`${BASE_URL}${USERS.Email_VRIFY}`, data);
     return result.data;
@@ -73,7 +73,7 @@ export const userVerifyEmail = async (data: fieldForm) => {
     return error.response.data;
   }
 };
-export const userVerifyPhone = async (data: fieldForm) => {
+export const userVerifyPhone = async (data: any) => {
   try {
     let result = await axios.post(`${BASE_URL}${USERS.Phone_VRIFY}`, data);
     return result.data;

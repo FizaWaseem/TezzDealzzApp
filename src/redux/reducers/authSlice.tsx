@@ -1,28 +1,18 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getToken } from "../../utils/general.utils";
-// const tokenjwt=async()=>{
-// let token=await AsyncStorage.getItem("jwt")
-// return token;
-// }
-// const tokenAsyn=await AsyncStorage.getItem("jwt")
+
 const initialState = {
-  
-  currentUser: []as Array<any>,
-  // tokenjwt().then(response=>response),
-  // token:tokenAsyn,
-  user:{},
+  currentUser: [] as Array<any>,
+  user: {},
   // isLoggedIn: tokenAsyn!== null ? true : false,
-  SelectedItem:[]as Array<any>,
-  activeCompare: false,
-  alreadyVerify:false,
+  alreadyVerify: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state,action) => {
+    login: (state, action) => {
       // state.isLoggedIn = true;
       state.user = action.payload.data.user;
       // state.token = action.payload.data.token;
@@ -32,21 +22,6 @@ const authSlice = createSlice({
       state.user = {};
       // state.isLoggedIn = false;
       // state.token =""
-      
-    
-    },
-    compare: (state,{ payload }: PayloadAction) =>{ 
-       const existingCartItem = state.SelectedItem.find(item => item.id === payload.id);
-       (state.SelectedItem.length === 2 || existingCartItem !== undefined )
-        ? 
-        null 
-        : 
-        ( state.SelectedItem=[...state.SelectedItem,payload]),
-         
-         (state.SelectedItem.length === 2) ? state.activeCompare=true :   state.activeCompare=false
-    },
-    remove: (state,{ payload }: PayloadAction) =>{   
-     state.SelectedItem=state.SelectedItem.filter((item) => item.id!== payload.id);    
     },
     accountSignUp: (state) => {
       state.alreadyVerify = true;
@@ -54,13 +29,13 @@ const authSlice = createSlice({
     accountNotSignUp: (state) => {
       state.alreadyVerify = false;
     },
-    userId: (state,action) => {
-      state.currentUser=action.payload;
-      console.log("user_redux",action.payload) ;
+    userId: (state, action) => {
+      state.currentUser = action.payload;
+      console.log("user_redux", action.payload);
     },
   },
 });
 
-export const { login, logout,compare ,remove,accountSignUp,accountNotSignUp,userId} = authSlice.actions;
+export const { login, logout, userId } = authSlice.actions;
 
 export default authSlice.reducer;

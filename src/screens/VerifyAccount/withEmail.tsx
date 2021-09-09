@@ -2,27 +2,29 @@ import React, { useState} from "react";
 import {
   Login,
   VerifyYourAccount,
-  EnteryourNumber,
   EnterdigitCode,
   Submit,
   enterEmail,
-  alreadyAccount,
-  SignInHead,
 } from "../../utils/constants/en/index";
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { Fieldnames, verificationValidationSchema } from "../../utils/form/validationForm";
 import { userVerifyEmail } from "../../utils/api";
 import Toast from 'react-native-simple-toast';
 import { fieldForm } from "../../../types";
 import GeneralView from "../../section/LoginView/GeneralLoginView";
 import { Alert } from "react-native";
+import { RootState } from "../../redux/store";
 
 
-const VerifywithEmail= (alreadyAccount) => {
+const VerifywithEmail= () => {
   const [input, setinput] = useState({
     email: "",
     code: "",
 });
+const alreadyAccount = useSelector(
+  (state: RootState) => state.auth.alreadyVerify
+);
+
   const [Verify, setVerify] = useState(true);
     const dispatch = useDispatch();
     const [Loader, setLoader] = useState(false);
@@ -55,7 +57,7 @@ const VerifywithEmail= (alreadyAccount) => {
               type:"numeric"
               },
     ]
-  const handleVerify= async(values: fieldForm)=>{
+  const handleVerify= async(values: any)=>{
     const{email}=values;
     console.log("verify",email);
     const requestBody={
@@ -68,7 +70,7 @@ const VerifywithEmail= (alreadyAccount) => {
       return (
         setLoader(false),
         console.log(response,"res"),
-        setVerify((prev)=> prev.Verify === true ?  true:false,
+        setVerify((prev:any)=> prev.Verify === true ?  true:false,
       ),
         Toast.show("Code sent to your email")
       )
@@ -107,8 +109,4 @@ const VerifywithEmail= (alreadyAccount) => {
   
   );
 }
-const mapStateToProps = (state) => ({
-  alreadyAccount: state.rootReducer.auth.alreadyAccount,
-});
-
-export default connect(mapStateToProps)(VerifywithEmail);
+export default VerifywithEmail;

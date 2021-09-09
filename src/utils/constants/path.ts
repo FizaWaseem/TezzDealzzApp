@@ -62,7 +62,7 @@ export const protectedroute=[
     {
         id:1,
         path:"/",
-        component:HomePage,
+        component:FindCar,
     },
     {
         id:2,
@@ -72,7 +72,7 @@ export const protectedroute=[
     {
         id:3,
         path:"/find-car",
-        component:FindCar,
+        component:HomePage,
     },  
     {
         id:4,

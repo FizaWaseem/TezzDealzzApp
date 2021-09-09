@@ -1,17 +1,18 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React, { Props } from "react";
+import React from "react";
 import store from "./src/redux/store";
 import { Provider } from "react-redux";
 import AuthRoute from "./route";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import useCachedResources from "./src/utils/constants/resources/useCachedResources";
+import useCachedResources from "./index";
 import { COLOR } from "./src/Theme/Colors";
+import { Splash } from "./src/screens";
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   if (!isLoadingComplete) {
-    return null;
+    return <Splash/>;
   } else {
     return (
       <Provider store={store}>
